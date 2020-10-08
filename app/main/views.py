@@ -1,5 +1,4 @@
 from . import main
-from app import app
 from flask import render_template
 from app.models import User, Photo
 from flask_login import login_required, current_user
