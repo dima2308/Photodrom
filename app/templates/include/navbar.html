@@ -1,0 +1,54 @@
+<nav class="navbar navbar-expand-lg navbar-light mb-3" style="background-color: #e3f2fd;">
+  <a class="navbar-brand" href="/">
+    <img class="main-logo" src="{{ url_for('static', filename='img/logo.png') }}" width="150" height="60" alt="logo">
+  </a>
+
+  <div class="collapse navbar-collapse" id="navbarSupportedContent">
+    <ul class="navbar-nav mr-auto">
+      <li class="nav-item {{ 'active' if active_page == '/' }}">
+        <a class="nav-link" href="/">Главная</a>
+      </li>
+      <li class="nav-item {{ 'active' if active_page == 'photos' }}">
+        <a class="nav-link" href="{{ url_for('photos.index') }}">Фотографии</a>
+      </li>
+      <li class="nav-item {{ 'active' if active_page == 'users' }}">
+        <a class="nav-link" href="{{ url_for('photos.users') }}">Пользователи</a>
+      </li>
+      {% if current_user.is_authenticated and active_page == 'photos' %}
+      <li class="nav-item {{ 'active' if active_page == 'users' }}">
+        <a class="nav-link" href="{{ url_for('photos.add_photo') }}">Добавить</a>
+      </li>
+      {% endif %}
+    </ul>
+
+    {% if active_page == 'photos' %}
+    <form class="form-inline my-2 my-lg-0 mr-5" method="GET">
+      <input class="form-control mr-sm-2" type="search" name="search" value="{{ request.args.get('search', '') }}"
+        placeholder="Поиск по фотографиям">
+      <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Искать</button>
+    </form>
+    {% endif %}
+
+    <ul class="navbar-nav mr-end mr-1">
+      {% if current_user.is_authenticated %}
+      <li class="nav-item dropdown {{ 'active' if active_page == 'profile' }}">
+        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          {{ current_user }}<i class="fa fa-user"></i>
+        </a>
+        <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink" style="left: -37px;">
+          <a class="dropdown-item" href="{{ url_for('main.profile') }}">Мои публикации</a>
+          <a class="dropdown-item" href="{{ url_for('auth.change_password') }}">Сменить пароль</a>
+          <a class="dropdown-item" href="{{ url_for('auth.logout') }}">Выход</a>
+        </div>
+      </li>
+      {% else %}
+      <li class="nav-item {{ 'active' if active_page == 'registration' }}">
+        <a class="nav-link" href="{{ url_for('auth.registration') }}">Регистрация</a>
+      </li>
+      <li class="nav-item {{ 'active' if active_page == 'login' }}">
+        <a class="nav-link" href="{{ url_for('auth.login') }}">Вход</a>
+      </li>
+      {% endif %}
+    </ul>
+  </div>
+</nav>

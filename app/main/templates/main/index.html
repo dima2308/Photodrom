@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+
+{% set active_page = '/' %}
+
+{% block title %}
+  Фотодром
+{% endblock title %}
+
+{% block content %}
+  <main class="container mt-4 mb-3">
+    <div class="main-title mb-3">
+      <h1 class="mb-3">Фотодром - портал лучших фото</h1>
+    </div>
+    <div class="slider-title mb-3">
+      <h2>Фото дня</h2>
+      <i class="fa fa-arrow-down fa-3x"></i>
+    </div>
+    <div class="slider-title mb-5">
+      <a href="{{ url_for('photos.photo_detail', slug=photo.slug) }}">
+        <img src="{{ photo.url }}" width="800" height="600">
+      </a>
+    </div>
+
+    <div class="advantages">
+      <div class="card text-white bg-primary mb-3">
+        <div class="card-header">Делитесь</div>
+        <div class="card-body">
+          <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+        </div>
+      </div>
+      <div class="card text-white bg-info mb-3">
+        <div class="card-header">Смотрите</div>
+        <div class="card-body">
+          <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+        </div>
+      </div>
+      <div class="card text-white bg-success mb-3">
+        <div class="card-header">Оценивайте</div>
+        <div class="card-body">
+          <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+        </div>
+      </div>
+    </div>
+  </main>
+{% endblock content %}

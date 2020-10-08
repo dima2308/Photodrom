@@ -1,0 +1,21 @@
+<h3 class="title-comments mb-4">Комментарии ({{ photo.comments.__len__() }})</h3>
+<ul class="media-list">
+  {% for comment in photo.comments %}
+  <div class="media mb-3">
+    <div class="media-body">
+      <div class="panel panel-info">
+        <div class="panel-heading">
+          <div class="author mb-1"><b> {{ comment.user_comment }} </b></div>
+          <div class="metadata">
+            <span class="date">{{ comment.created_date.strftime("%d.%m.%Y %H:%M") }}</span>
+          </div>
+        </div>
+        <div class="panel-body ml-1 mt-2" style="width: 300px;">
+          <div class="media-text"">{{ comment.body }}</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <hr>
+  {% endfor %}
+</ul>

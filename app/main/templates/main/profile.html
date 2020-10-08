@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+
+{% set active_page = 'profile' %}
+
+{% block title %}
+  Профиль | {{ current_user }}
+{% endblock title %}
+
+{% block content %}
+<main class="container mt-4 mb-3">
+<h1 class="mb-4">Мои публикации</h1>
+<table class="table mb-4">
+  <thead>
+    <tr class="table-info">
+      <th>#</th>
+      <th>Название</th>
+      <th>Фотография</th>
+      <th>Количество лайков</th>
+      <th>Количество комментариев</th>
+      <th>Дата публикации</th>
+      <th>Действие</th>
+    </tr>
+  </thead>
+  <tbody>
+      {% for photo in photos %}
+      <tr>
+        <th scope="row">{{ 1 }}</th>
+        <td>{{ photo.title }}</td>
+        <td>
+          <a href="{{ url_for('photos.photo_detail', slug=photo.slug) }}">
+            <img src="{{ photo.url }}" alt="{{ photo.tile}}" width="120" height="80">
+          </a>
+        </td>
+        <td>{{ photo.count_likes }}</td>
+        <td>{{ photo.comments.__len__() }}</td>
+        <td>{{ photo.created_date }}</td>
+        <td>
+          <a href="{{ url_for('photos.edit_photo', slug=photo.slug)}}"><button type="submit" class="btn btn-primary">Изменить</button></a>
+          <a href="{{ url_for('photos.delete_photo', slug=photo.slug)}}"><button type="submit" class="btn btn-primary">Удалить</button></a>
+        </td>
+      </tr>
+      {% endfor %}
+  </tbody>
+</table>
+<p>Всего публикаций: {{ user.photos.__len__() }}</p>
+<p>Всего комментариев: {{ user.comments.__len__() }}</p>
+</main>
+{% endblock content %}

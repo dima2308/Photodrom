@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+    integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+  <link rel="shortcut icon" href="https://itex-1c.ru/upload/iblock/d67/d67085eb87231eeb4520d4dcd85449f4.png"
+    type="image/x-icon">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
+  <title>
+    {% block title %}
+    {% endblock title %}
+  </title>
+</head>
+
+<body>
+  {% include 'include/navbar.html' %}
+
+  {% block content %}
+  {% endblock content %}
+
+  {% include 'include/footer.html' %}
+  <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+</body>
+
+</html>

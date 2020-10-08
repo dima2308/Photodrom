@@ -1,0 +1,16 @@
+{% if current_user.is_authenticated %}
+  <form id="form" method="POST" action="{{ url_for('photos.add_comment', slug=photo.slug) }}" class="col-8 mt-5">
+    {{ form.csrf_token }}
+    {% for field in form if field.name != 'csrf_token' %}
+      {{ field(class="form-control mb-3", placeholder="Введите комментарий") }}
+        {% for error in field.errors %}
+          <p class="validation-error">{{ error }}</p>
+        {% endfor %}
+    {% endfor %}
+    <div>
+      <button id="comment_btn" type="submit" class="btn btn-primary btn-lg mt-3">Отправить</button>
+    </div>
+  </form>
+{% else %}
+  <p>Комментарии могут оставлять только авторизованные пользователи. <a href="{{ url_for('login') }}">Войти?</a></p>
+{% endif %}

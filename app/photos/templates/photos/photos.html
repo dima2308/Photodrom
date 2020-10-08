@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+
+{% set active_page = 'photos' %}
+
+{% block title %}
+Фотографии
+{% endblock title %}
+
+{% block content %}
+<main class="container mt-4 mb-3">
+  <ul class="sort-block">
+    <li id="sort-title">
+      по названию
+    </li>
+    <li id="sort-rating">
+      по популярности
+    </li>
+    <li id="sort-date">
+      по дате добавления
+    </li>
+  </ul>
+
+  <hr>
+
+  <div class="card-deck mt-5 mb-5">
+    {% include 'photos/include/set_photos.html' %}
+  </div>
+
+  <nav>
+    <ul class="pagination pagination-lg justify-content-center">
+      <li class="page-item {{ 'disabled' if not pages.has_prev }}">
+        <a class="page-link" href="./?page={{ pages.prev_num }}">Назад</a>
+      </li>
+      {% for page in pages.iter_pages() %}
+      <li class="page-item {{ 'active' if page==pages.page }}">
+        <a class="page-link" href="./?page={{ page }}">{{ page }}</a>
+      </li>
+      {% endfor %}
+      <li class="page-item {{ 'disabled' if not pages.has_next }}">
+        <a class="page-link" href="./?page={{ pages.next_num }}">Вперёд</a>
+      </li>
+    </ul>
+  </nav>
+</main>
+{% endblock content %}

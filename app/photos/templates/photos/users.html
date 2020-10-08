@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+
+{% set active_page = 'users' %}
+
+{% block title %}
+Пользователи
+{% endblock title %}
+
+{% block content %}
+<main class="container mt-4 mb-3">
+  <h1 class="mb-4">Рейтинг активных пользователей</h1>
+  <table class="table mb-4">
+    <thead>
+      <tr class="table-info">
+        <th>#</th>
+        <th>Имя</th>
+        <th>Логин</th>
+        <th>Количество публикаций</th>
+        <th>Количество комментариев</th>
+        <th>Дата регистрации</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for user in users %}
+      <tr>
+        <th scope="row">1</th>
+        <td>{{ user.name }}</td>
+        <td>{{ user.login }}</td>
+        <td>{{ user.photos.__len__() }}</td>
+        <td>{{ user.comments.__len__() }}</td>
+        <td>{{ user.created_date }}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+  <p>Всего пользователей: {{ users.__len__() }}</p>
+  <p>Всего публикаций: {{ count_photos }}</p>
+</main>
+{% endblock content %}

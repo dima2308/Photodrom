@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+
+{% block title %}
+  {{ photo.title }}
+{% endblock title %}
+
+{% block content %}
+<main class="container mt-4 mb-3">
+  <div class="card mb-3 mt-5">
+    <img src="{{ photo.url }}" class="card-img-top" alt="{{ photo.title }}">
+    <div class="card-body">
+      <h2 class="card-title">{{ photo.title }}</h2>
+      <p class="card-text mb-3">{{ photo.description }}</p>
+      <div class="mb-4">
+        <span class="card-text d-block mb-1"><b>Автор:</b> {{ photo.user }}</span>
+        <span class="card-text d-block"><b>Категория:</b> {{ photo.category }}</span>
+      </div>
+      <p class="card-text">
+        <i class="fa fa-heart fa-lg"></i> {{ photo.count_likes }}
+      </p>
+      <p class="card-text"><small class="text-muted">{{ photo.created_date }}</small></p>
+    </div>
+  </div>
+
+  <div class="comments">
+    {% include 'photos/include/block_comments.html' %}
+  </div>
+  {% include 'photos/include/form_comments.html' %} 
+</main>
+{% endblock content %}

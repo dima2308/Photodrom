@@ -1,0 +1,21 @@
+{% for photo in pages.items %}
+<div class="col-md-4 mb-3">
+  <a href="{{ url_for('photos.photo_detail', slug=photo.slug) }}">
+    <img src="{{ photo.url }}" class="card-img-top" alt="{{ photo.title }}" height="350">
+  </a>
+  <div class="card-body">
+    <h5 class="card-title">{{ photo.title }}</h5>
+    <p class="card-text">Автор: {{ photo.user }}</p>
+    <div class="card-bottom">
+      <small class="text-muted">{{ photo.created_date.strftime("%d.%m.%Y") }}</small>
+      {% if current_user.is_authenticated %}
+      {% if current_user in photo.likes %}
+      <a href="{{ url_for('photos.like', slug=photo.slug) }}" class="fa fa-heart fa-2x"></a>
+      {% else %}
+      <a href="{{ url_for('photos.like', slug=photo.slug) }}" class="fa fa-heart-o fa-2x"></a>
+      {% endif %}
+      {% endif %}
+    </div>
+  </div>
+</div>
+{% endfor %}

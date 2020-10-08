@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+
+{% set active_page = 'login' %}
+
+{% block title %}
+  Восстановление пароля
+{% endblock title %}
+
+{% block content %}
+<main class="container mt-4 mb-3 col-4">
+  <h1 class="mb-4">Восстановление пароля</h1>
+    <p>Укажите email, на который будет отправлен новый пароль.</p>
+    {% for cat, message in get_flashed_messages(with_categories=true) %}
+      <div class="alert alert-primary" style="text-align: center;">{{ message }}</div>
+    {% endfor %}
+    <form action="{{ url_for('auth.forgot_password') }}" method="POST">
+      {{ form.csrf_token }}
+      {{ form.email.label(class="control-label") }}
+      {{ form.email(class="form-control mb-3") }}
+      <div>
+        {% for error in form.email.errors %}
+          <p class="validation-error">{{ error }}</p>
+        {% endfor %}
+      </div>
+      <button type="submit" class="btn btn-primary btn-lg mt-3">Восстановить</button>
+    </form>
+</main>
+{% endblock content %}
