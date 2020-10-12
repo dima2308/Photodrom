@@ -8,6 +8,7 @@ from flask_admin.contrib.sqla import ModelView
 from flask_mail import Mail, Message
 from flask_security import SQLAlchemyUserDatastore, Security
 from dotenv import load_dotenv
+from logging import FileHandler, WARNING, Formatter
 
 
 dotenv_path = os.path.join(os.path.dirname(__file__), '.env')
@@ -21,6 +22,13 @@ app.config.from_object(os.environ.get('FLASK_ENV') or 'config.TestingConfig')
 db = SQLAlchemy(app)
 
 migrate = Migrate(app, db)
+
+file_handler = FileHandler('errors.txt')
+formatter = Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+file_handler.setFormatter(formatter)
+file_handler.setLevel(WARNING)
+
+app.logger.addHandler(file_handler)
 
 login_manager = LoginManager(app)
 login_manager.login_view = 'auth.login'

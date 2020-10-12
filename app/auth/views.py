@@ -59,13 +59,10 @@ def registration():
         new_user = User(name=form_name, login=form_login, email=form_email)
         new_user.set_password(form_password)
 
-        try:
-            db.session.add(new_user)
-            db.session.commit()
-            send_mail('Регистрация на сайте Photodrom', user.email,
-                      'mail/registration_mail.html', name=user.name)
-        except:
-            print('Error: cannot register.')
+        db.session.add(new_user)
+        db.session.commit()
+        send_mail('Регистрация на сайте Photodrom', user.email,
+                  'mail/registration_mail.html', name=user.name)
 
         return redirect(url_for('login'))
 
@@ -112,12 +109,9 @@ def change_password():
         user = User.query.filter(User.email == current_user.email).first()
 
         if user.check_password(request.form.get('old_password')):
-            try:
-                user.set_password(request.form.get('new_password'))
-                db.session.commit()
-                return redirect('/')
-            except:
-                print('Error')
+            user.set_password(request.form.get('new_password'))
+            db.session.commit()
+            return redirect('/')
         else:
             flash('Неверный текущий пароль')
             return render_template('auth/change_password.html', form=form)

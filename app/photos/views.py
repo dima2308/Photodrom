@@ -61,11 +61,8 @@ def add_photo():
             new_photo = Photo(title=form_title, slug=form_title, description=form_description, url=form_url,
                               category=category_id, author_id=current_user.user_id)
 
-            try:
-                db.session.add(new_photo)
-                db.session.commit()
-            except:
-                print('Error: cannot add photo.')
+            db.session.add(new_photo)
+            db.session.commit()
 
             return redirect('/')
         else:
@@ -97,10 +94,7 @@ def edit_photo(slug):
         photo.url = request.form.get('url')
         photo.category = category_id
 
-        try:
-            db.session.commit()
-        except:
-            print('Error: cannot edit photo.')
+        db.session.commit()
 
         return redirect(url_for('photos.photo_detail', slug=photo.slug))
 
@@ -112,11 +106,8 @@ def edit_photo(slug):
 def delete_photo(slug):
     photo = Photo.query.filter(Photo.slug == slug).first_or_404()
 
-    try:
-        db.session.delete(photo)
-        db.session.commit()
-    except:
-        print('Error: cannot delete photo')
+    db.session.delete(photo)
+    db.session.commit()
 
     return redirect(url_for('photos.index'))
 
@@ -125,17 +116,14 @@ def delete_photo(slug):
 def like(slug):
     photo = Photo.query.filter(Photo.slug == slug).first()
 
-    try:
-        if current_user in photo.likes:
-            photo.likes.remove(current_user)
-            photo.count_likes = photo.count_likes - 1
-        else:
-            photo.likes.append(current_user)
-            photo.count_likes = photo.count_likes + 1
+    if current_user in photo.likes:
+        photo.likes.remove(current_user)
+        photo.count_likes = photo.count_likes - 1
+    else:
+        photo.likes.append(current_user)
+        photo.count_likes = photo.count_likes + 1
 
-        db.session.commit()
-    except:
-        print('Error: cannot like photo')
+    db.session.commit()
 
     return redirect(url_for('photos.index'))
 
@@ -151,6 +139,7 @@ def add_comment(slug):
 
         new_comment = Comment(author_id=current_user.user_id,
                               photo_id=photo.photo_id, body=form_body)
+
         db.session.add(new_comment)
         db.session.commit()
 
