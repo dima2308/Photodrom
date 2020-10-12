@@ -15,7 +15,6 @@ dotenv_path = os.path.join(os.path.dirname(__file__), '.env')
 if os.path.exists(dotenv_path):
     load_dotenv(dotenv_path)
 
-
 app = Flask(__name__)
 app.config.from_object(os.environ.get('FLASK_ENV') or 'config.TestingConfig')
 
@@ -23,10 +22,11 @@ db = SQLAlchemy(app)
 
 migrate = Migrate(app, db)
 
-file_handler = FileHandler('errors.txt')
-formatter = Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
-file_handler.setFormatter(formatter)
+file_handler = FileHandler(app.config['LOGFILE'])
 file_handler.setLevel(WARNING)
+file_handler.setFormatter(Formatter(
+    '%(asctime)s - %(name)s - %(levelname)s - %(message)s'
+))
 
 app.logger.addHandler(file_handler)
 
@@ -48,6 +48,7 @@ from .photos import photos
 from .auth import auth
 from .errors import errors
 from .main import main
+
 
 app.register_blueprint(photos, url_prefix='/photos')
 app.register_blueprint(auth, url_prefix='/auth')

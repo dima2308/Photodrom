@@ -20,6 +20,7 @@ class DevelopmentConfig(BaseConfig):
     DEBUG = True
     SQLALCHEMY_DATABASE_URI = os.environ.get('DEVELOPMENT_DATABASE_URI') or \
         'mysql+mysqlconnector://root:root@localhost/photodrom'
+    LOGFILE = 'logs/development.log'
 
 
 class TestingConfig(BaseConfig):
@@ -32,3 +33,4 @@ class ProductionConfig(BaseConfig):
     DEBUG = False
     SQLALCHEMY_DATABASE_URI = os.environ.get('PRODUCTION_DATABASE_URI') or \
         'mysql+mysqlconnector://root:root@localhost/photodrom'
+    LOGFILE = 'logs/production.log'
