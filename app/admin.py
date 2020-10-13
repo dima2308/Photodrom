@@ -3,15 +3,18 @@ from .models import *
 from flask_login import current_user
 from flask_admin import Admin, AdminIndexView
 from flask_admin.contrib.sqla import ModelView
-from flask import redirect
+from flask import render_template
 
 
 class AdminMixin:
     def is_accessible(self):
-        return 'Admin' in current_user.roles
+        if current_user.is_authenticated:
+            return 'Admin' in current_user.roles
+
+        return False
 
     def inaccessible_callback(self, name, **kwargs):
-        return redirect('/')
+        return render_template('/errors/403.html')
 
 
 class AdminView(AdminMixin, ModelView):
