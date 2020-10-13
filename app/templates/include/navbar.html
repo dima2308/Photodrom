@@ -31,6 +31,11 @@
 
     <ul class="navbar-nav mr-end mr-1">
       {% if current_user.is_authenticated %}
+        {% if 'Admin' in current_user.roles %}
+        <li class="nav-item {{ 'active' if active_page == 'login' }}">
+          <a class="nav-link" href="/admin">Админка</a>
+        </li>
+        {% endif %}
       <li class="nav-item dropdown {{ 'active' if active_page == 'profile' }}">
         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
           {{ current_user }}<i class="fa fa-user"></i>

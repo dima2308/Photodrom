@@ -16,6 +16,7 @@ def init_db():
     db.drop_all()
 
 
+@pytest.mark.skip('asd')
 class TestUserModel():
     def test_password_hashing(self, init_db):
         u = User(name='test_user', email='testuser@mail.ru', login='test_user')
@@ -33,14 +34,16 @@ class TestUserModel():
 
         assert User.query.filter(User.login == 'test_user').first()
 
-    #@pytest.mark.skip('Пока не требуется')
+    @pytest.mark.skip('Пока не требуется')
     def test_add_same_user_email(self, init_db):
-        u1 = User(name='test_user', email='testuser@mail.ru', login='test_user1')
+        u1 = User(name='test_user', email='testuser@mail.ru',
+                  login='test_user1')
         u1.set_password('test')
         db.session.add(u1)
         db.session.commit()
 
-        u2 = User(name='test_user', email='testuser@mail.ru', login='test_user2')
+        u2 = User(name='test_user', email='testuser@mail.ru',
+                  login='test_user2')
         u2.set_password('test')
         db.session.add(u2)
 
@@ -49,14 +52,16 @@ class TestUserModel():
         except IntegrityError:
             assert True
 
-    #@pytest.mark.skip('Пока не требуется')
+    @pytest.mark.skip('Пока не требуется')
     def test_add_same_user_login(self, init_db):
-        u1 = User(name='test_user', email='testuser1@mail.ru', login='test_user1')
+        u1 = User(name='test_user', email='testuser1@mail.ru',
+                  login='test_user1')
         u1.set_password('test')
         db.session.add(u1)
         db.session.commit()
 
-        u2 = User(name='test_user', email='testuser2@mail.ru', login='test_user1')
+        u2 = User(name='test_user', email='testuser2@mail.ru',
+                  login='test_user1')
         u2.set_password('test')
         db.session.add(u2)
 

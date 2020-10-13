@@ -3,10 +3,7 @@ from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 from flask_login import LoginManager
-from flask_admin import Admin
-from flask_admin.contrib.sqla import ModelView
 from flask_mail import Mail, Message
-from flask_security import SQLAlchemyUserDatastore, Security
 from dotenv import load_dotenv
 from logging import FileHandler, WARNING, Formatter
 
@@ -22,13 +19,14 @@ db = SQLAlchemy(app)
 
 migrate = Migrate(app, db)
 
-file_handler = FileHandler(app.config['LOGFILE'])
-file_handler.setLevel(WARNING)
-file_handler.setFormatter(Formatter(
-    '%(asctime)s - %(name)s - %(levelname)s - %(message)s'
-))
+if app.debug == False:
+    file_handler = FileHandler(app.config['LOGFILE'])
+    file_handler.setLevel(WARNING)
+    file_handler.setFormatter(Formatter(
+        '%(asctime)s - %(name)s - %(levelname)s - %(message)s'
+    ))
 
-app.logger.addHandler(file_handler)
+    app.logger.addHandler(file_handler)
 
 login_manager = LoginManager(app)
 login_manager.login_view = 'auth.login'
@@ -38,11 +36,7 @@ mail = Mail(app)
 
 from app.models import *
 
-admin = Admin(app)
-admin.add_view(ModelView(Photo, db.session))
-admin.add_view(ModelView(User, db.session))
-admin.add_view(ModelView(Comment, db.session))
-admin.add_view(ModelView(Category, db.session))
+from app.admin import admin
 
 from .photos import photos
 from .auth import auth
