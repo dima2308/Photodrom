@@ -4,17 +4,24 @@ from flask import Blueprint, render_template, redirect, request, url_for, flash
 from flask_login import current_user, login_required
 from app.models import Photo, Category, Comment, User
 from .forms import PhotoForm, CommentForm
+from app.utils import sort_photos
 
 
 @photos.route('/')
 def index():
     search = request.args.get('search')
     page = request.args.get('page')
+    sort_param = request.args.get('sort')
 
     if page and page.isdigit():
         page = int(page)
     else:
         page = 1
+
+    if sort_param:
+        photos = sort_photos(sort_param)
+        pages = photos.paginate(page=page, per_page=6)
+        return render_template('photos/include/set_photos.html', pages=pages)
 
     if search:
         photos = Photo.query.filter(Photo.title.contains(
@@ -146,27 +153,3 @@ def add_comment(slug):
         return redirect(url_for('photos.photo_detail', slug=photo.slug))
 
     return render_template('photos/photo_detail.html', photo=photo, form=form)
-
-
-@photos.route('/sort')
-def sort():
-    sort = request.args.get('sort')
-    page = request.args.get('page')
-
-    if page and page.isdigit():
-        page = int(page)
-    else:
-        page = 1
-
-    if sort == 'title':
-        photos = Photo.query.order_by(Photo.title.desc())
-    elif sort == 'count_likes':
-        photos = Photo.query.order_by(Photo.count_likes.desc())
-    elif sort == 'created_date':
-        photos = Photo.query.order_by(Photo.created_date.desc())
-    else:
-        photos = Photo.query
-
-    pages = photos.paginate(page=page, per_page=6)
-
-    return render_template('photos/include/set_photos.html', pages=pages)

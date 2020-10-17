@@ -3,7 +3,7 @@ let sort_block = document.querySelector('.sort-block')
 let drop = document.querySelector('#navbarDropdownMenuLink')
 
 async function get_data(param, order) {
-  let req = await fetch(`/photos/sort?sort=${param}&order=${order}`)
+  let req = await fetch(`/photos/?sort=${param}&order=${order}`)
   let res = await req.text()
 
   if (req.ok) {
